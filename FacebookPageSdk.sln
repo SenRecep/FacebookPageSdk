@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookPageSdk.WpfUi", "FacebookPageSdk.WpfUi\FacebookPageSdk.WpfUi.csproj", "{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookPageSdk.Entities", "FacebookPageSdk.Entities\FacebookPageSdk.Entities.csproj", "{0504DF17-BF9E-467E-A688-55EBBBF05C1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookPageSdk.Services", "FacebookPageSdk.Services\FacebookPageSdk.Services.csproj", "{A854FEB8-386E-47D1-AB3D-87178D40EE87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Debug|x86.ActiveCfg = Debug|x86
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Debug|x86.Build.0 = Debug|x86
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Release|x86.ActiveCfg = Release|x86
+		{4FBCD2F9-CF9D-4BDE-B3DA-7E6684F746D7}.Release|x86.Build.0 = Release|x86
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Debug|x86.Build.0 = Debug|Any CPU
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Release|x86.ActiveCfg = Release|Any CPU
+		{0504DF17-BF9E-467E-A688-55EBBBF05C1A}.Release|x86.Build.0 = Release|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Debug|x86.Build.0 = Debug|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Release|x86.ActiveCfg = Release|Any CPU
+		{A854FEB8-386E-47D1-AB3D-87178D40EE87}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B8397F9-E2E6-4D46-B82E-92084BE2EBB4}
+	EndGlobalSection
+EndGlobal
