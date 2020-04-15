@@ -24,11 +24,11 @@
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="410" />
+                <ColumnDefinition Width="420" />
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <wpf:ChromiumWebBrowser  x:Name="Browser" />
-            <DataGrid Grid.Column="1" x:Name="dg"></DataGrid>
+            <wpf:ChromiumWebBrowser   x:Name="Browser"  />
+            <DataGrid Grid.Column="1" x:Name="dg" ></DataGrid>
         </Grid>
     </Grid>
 </Window>

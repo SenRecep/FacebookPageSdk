@@ -17,8 +17,11 @@ namespace FacebookPageSdk.WpfUi
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int fileCount = 0;
+        private List<Post> posts;
         public readonly string FacebookUrl = "https://m.facebook.com";
         public readonly System.Timers.Timer pageDownTimer;
+        public int PageCount = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +35,7 @@ namespace FacebookPageSdk.WpfUi
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            posts = new List<Post>();
             Title = $"Recep Berat";
             Browser.Address = $"{FacebookUrl}/YeniSafak";
             BtnPageDown.Click += BtnPageDown_Click;
@@ -46,45 +50,65 @@ namespace FacebookPageSdk.WpfUi
             //    {
             //        dg.ItemsSource = Oldposts;
             //    });
-
             //}));
         }
 
         private void Dg_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (dg.SelectedItem is Post post)
-                Browser.Address = $"{FacebookUrl}{post.DetailPageLink}";
+            //if (dg.SelectedItem is Post post)
+            //    Browser.Address = $"{FacebookUrl}{post.DetailPageLink}";
         }
 
         private void PageDownTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Browser.ExecuteScriptAsync("window.scrollTo(0, document.body.scrollHeight);");
+            PageCount++;
+            Dispatcher.Invoke(() =>
+            {
+                Title = PageCount.ToString();
+            });
+            if (PageCount > 50)
+            {
+                pageDownTimer.Stop();
+                PageCount = 0;
+                ThreadPool.QueueUserWorkItem(new WaitCallback((callback) =>
+                {
+                    string source = Browser.GetSourceAsync().Result;
+                    FacebookPageService pageService = new FacebookPageService(source);
+                    string json = JsonConvert.SerializeObject(pageService.GetPosts(), Formatting.Indented);
+                    File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"Posts-{++fileCount}.json"), json);
+                    Browser.ExecuteScriptAsync("document.querySelectorAll('._3drp').forEach(function(a) {a.parentElement.parentElement.remove()})");
+                    pageDownTimer.Start();
+                }));
+            }
         }
 
         private void BtnDownload_Click(object sender, RoutedEventArgs e)
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback((callback) =>
             {
-                string source = Browser.GetSourceAsync().Result;
-                FacebookPageService pageService = new FacebookPageService(source);
-                var posts = pageService.GetPosts();
+                pageDownTimer.Stop();
                 dg.Dispatcher.Invoke(() =>
                 {
                     dg.ItemsSource = posts;
+                    Title = $"Toplam Post : {posts.Count() }";
                 });
-                var json = JsonConvert.SerializeObject(posts,Formatting.Indented);
+                string json = JsonConvert.SerializeObject(posts, Formatting.Indented);
                 File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Posts.json"), json);
             }));
-
         }
 
 
         private void BtnPageDown_Click(object sender, RoutedEventArgs e)
         {
             if (!pageDownTimer.Enabled)
+            {
                 pageDownTimer.Start();
+            }
             else
+            {
                 pageDownTimer.Stop();
+            }
         }
 
     }
