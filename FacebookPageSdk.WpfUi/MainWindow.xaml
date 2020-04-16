@@ -17,10 +17,15 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button x:Name="BtnPageDown" Content="PAGE BOTTOM"/>
             <Button Grid.Column="1" x:Name="BtnPageDownStop" Content="PAGE BOTTOM Stop"/>
             <Button Grid.Column="2" x:Name="BtnDownload" Content="DOWNLOAD"/>
+            <ComboBox Grid.Column="3" x:Name="cb">
+                <ComboBoxItem Content="Yeni Safak" Tag="YeniSafak"/>
+                <ComboBoxItem Content="Sabah.com.tr" Tag="Sabah"/>
+            </ComboBox>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -28,7 +33,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <wpf:ChromiumWebBrowser   x:Name="Browser"  />
-            <DataGrid Grid.Column="1" x:Name="dg" ></DataGrid>
+            <ListBox Grid.Column="1" x:Name="dg" ></ListBox>
         </Grid>
     </Grid>
 </Window>

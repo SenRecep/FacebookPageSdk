@@ -15,10 +15,11 @@ namespace FacebookPageSdk.WpfUi
         {
             var settings = new CefSettings()
             {
-                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
+                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache"),
             };
 
             settings.CefCommandLineArgs.Add("enable-media-stream", "1");
+            settings.CefCommandLineArgs.Add("--js-flags", "--max_old_space_size=14000");
 
             Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
         }
