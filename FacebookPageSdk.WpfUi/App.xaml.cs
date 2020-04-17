@@ -16,6 +16,7 @@ namespace FacebookPageSdk.WpfUi
             var settings = new CefSettings()
             {
                 CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache"),
+                Locale="tr"
             };
 
             settings.CefCommandLineArgs.Add("enable-media-stream", "1");

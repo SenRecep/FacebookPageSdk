@@ -36,10 +36,13 @@ namespace FacebookPageSdk.Services
                     var description = post.SelectSingleNode("article/div/div[1]/span/p");
                     var date = post.SelectSingleNode("article/div/header/div[2]/div/div/div[1]/div/a/abbr");
                     var title = post.SelectSingleNode("article/div/div[2]/section/section/div/div/header/h3/span/span");
-                    var likeCount = post.SelectSingleNode("article/footer/div/div[1]/div[1]/a/div/div[1]/div");
-                    var commentCount = post.SelectSingleNode("article/footer/div/div[1]/div[1]/a/div/div[2]/span[1]");
-                    var shareCount = post.SelectSingleNode("article/footer/div/div[1]/div[1]/a/div/div[2]/span[2]");
-                    var detailPageLink = post.SelectSingleNode("article/footer/div/div[1]/div[1]/a");
+                    string countXPath = "article/footer/div/div[1]/a";
+                    if (post.SelectSingleNode("article/footer/div/div[1]/div[1]/a")!=null)
+                        countXPath = "article/footer/div/div[1]/div[1]/a";
+                    var likeCount = post.SelectSingleNode($"{countXPath}/div/div[1]/div");
+                    var commentCount = post.SelectSingleNode($"{countXPath}/div/div[2]/span[1]");
+                    var shareCount = post.SelectSingleNode($"{countXPath}/div/div[2]/span[2]");
+                    var detailPageLink = post.SelectSingleNode($"{countXPath}");
                     yield return new Post()
                     {
                         Description = description?.InnerText,

@@ -48,11 +48,33 @@ namespace FacebookPageSdk.WpfUi
             Title = $"Social Scrapper";
             BtnPageDown.Click += BtnPageDown_Click;
             BtnPageDownStop.Click += BtnPageDownStop_Click;
-            BtnDownload.Click += BtnDownload_Click;
+            BtnLoad.Click += BtnLoad_Click; ;
             pageDownTimer.Elapsed += PageDownTimer_Elapsed;
             dg.SelectionChanged += Dg_SelectionChanged;
             cb.SelectionChanged += Cb_SelectionChanged;
             //Browser.ShowDevTools();
+        }
+
+        private void BtnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            if (cb.SelectedItem is ComboBoxItem item)
+            {
+                PageName = item.Tag.ToString();
+                var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), PageName);
+                if (Directory.Exists(dir))
+                {
+                    var files = Directory.GetFiles(dir);
+                    var postFiles = files.Where(f => f.Contains("Posts-") && f.Contains(".json"));
+                    var posts = new List<Post>();
+                    postFiles.OrderBy(p=>p).ToList().ForEach((p) => {
+                        var jsonPosts = File.ReadAllText(p);
+                        var parsedPosts = JsonConvert.DeserializeObject<List<Post>>(jsonPosts);
+                        posts.AddRange(parsedPosts);
+                    });
+                    dg.ItemsSource = posts;
+                }
+            }
+           
         }
 
         private void Cb_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -103,11 +125,6 @@ namespace FacebookPageSdk.WpfUi
                     }
                 }));
             }
-        }
-
-        private void BtnDownload_Click(object sender, RoutedEventArgs e)
-        {
-            string source = Browser.GetSourceAsync().Result;
         }
 
         private void BtnPageDown_Click(object sender, RoutedEventArgs e)
