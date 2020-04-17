@@ -28,13 +28,14 @@ namespace FacebookPageSdk.WpfUi
         private const string TimerClear = "clearInterval(myInterval)";
         private const string RemoveDivs = "document.querySelectorAll('._3drp').forEach(function(a) {a.parentElement.parentElement.remove()})";
 
+        private List<Post> posts;
         public MainWindow()
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
             Browser.BrowserSettings = new BrowserSettings()
             {
-                ImageLoading = CefState.Disabled,
+                //ImageLoading = CefState.Disabled,
             };
             pageDownTimer = new System.Timers.Timer()
             {
@@ -52,7 +53,30 @@ namespace FacebookPageSdk.WpfUi
             pageDownTimer.Elapsed += PageDownTimer_Elapsed;
             dg.SelectionChanged += Dg_SelectionChanged;
             cb.SelectionChanged += Cb_SelectionChanged;
+            BtnSearch.Click += BtnSearch_Click;
             //Browser.ShowDevTools();
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+                dg.ItemsSource = posts;
+            else
+            {
+                foreach (Post item in posts)
+                {
+                    var des = item.Description == null ? "" :item.Description;
+                    var tit = item.Title == null ? "" :item.Title;
+                    item.Title = tit;
+                    item.Description = des;
+                }
+
+                dg.ItemsSource = posts.Where(p=>
+                p.Description.Contains(SearchBox.Text) || 
+                p.Title.Contains(SearchBox.Text)).ToList();
+            }
+               
+            SearchCount.Content = $"Toplam Post Sayısı: {((List<Post>)dg.ItemsSource).Count}";
         }
 
         private void BtnLoad_Click(object sender, RoutedEventArgs e)
@@ -65,13 +89,16 @@ namespace FacebookPageSdk.WpfUi
                 {
                     var files = Directory.GetFiles(dir);
                     var postFiles = files.Where(f => f.Contains("Posts-") && f.Contains(".json"));
-                    var posts = new List<Post>();
-                    postFiles.OrderBy(p=>p).ToList().ForEach((p) => {
+                    posts = new List<Post>();
+                    postFiles.OrderBy(p=>p.Replace("Posts-","").Replace(".json","")).ToList().ForEach((p) => {
                         var jsonPosts = File.ReadAllText(p);
                         var parsedPosts = JsonConvert.DeserializeObject<List<Post>>(jsonPosts);
                         posts.AddRange(parsedPosts);
                     });
                     dg.ItemsSource = posts;
+                    string json = JsonConvert.SerializeObject(posts,Formatting.Indented);
+                    File.WriteAllText(Path.Combine(dir, $"{PageName}-All.json"),json);
+                    SearchCount.Content = $"Toplam Post Sayısı: {posts.Count}";
                 }
             }
            

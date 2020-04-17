@@ -37,7 +37,7 @@ namespace FacebookPageSdk.Services
                     var date = post.SelectSingleNode("article/div/header/div[2]/div/div/div[1]/div/a/abbr");
                     var title = post.SelectSingleNode("article/div/div[2]/section/section/div/div/header/h3/span/span");
                     string countXPath = "article/footer/div/div[1]/a";
-                    if (post.SelectSingleNode("article/footer/div/div[1]/div[1]/a")!=null)
+                    if (post.SelectSingleNode("article/footer/div/div[1]/div[1]/a") != null)
                         countXPath = "article/footer/div/div[1]/div[1]/a";
                     var likeCount = post.SelectSingleNode($"{countXPath}/div/div[1]/div");
                     var commentCount = post.SelectSingleNode($"{countXPath}/div/div[2]/span[1]");
@@ -45,13 +45,13 @@ namespace FacebookPageSdk.Services
                     var detailPageLink = post.SelectSingleNode($"{countXPath}");
                     yield return new Post()
                     {
-                        Description = description?.InnerText,
-                        Date = date?.InnerText,
-                        Title = title?.InnerText,
-                        LikeCount=likeCount?.InnerText,
-                        CommentCount=commentCount?.InnerText,
-                        ShareCount= shareCount?.InnerText,
-                        DetailPageLink= detailPageLink?.GetAttributeValue("href",string.Empty).Replace("amp;",""),
+                        Description = description == null ? "" : description.InnerText,
+                        Date = date == null ? "" : date.InnerText,
+                        Title = title == null ? "" : title.InnerText,
+                        LikeCount = likeCount == null ? "" : likeCount.InnerText,
+                        CommentCount = commentCount == null ? "" : commentCount.InnerText,
+                        ShareCount = shareCount == null ? "" : shareCount.InnerText,
+                        DetailPageLink = detailPageLink == null ? "" : detailPageLink.GetAttributeValue("href", string.Empty).Replace("amp;", ""),
                     };
                 }
 
