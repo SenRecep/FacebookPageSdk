@@ -65,17 +65,17 @@ namespace FacebookPageSdk.WpfUi
             {
                 foreach (Post item in posts)
                 {
-                    var des = item.Description == null ? "" :item.Description;
-                    var tit = item.Title == null ? "" :item.Title;
+                    var des = item.Description == null ? "" : item.Description;
+                    var tit = item.Title == null ? "" : item.Title;
                     item.Title = tit;
                     item.Description = des;
                 }
 
-                dg.ItemsSource = posts.Where(p=>
-                p.Description.Contains(SearchBox.Text) || 
+                dg.ItemsSource = posts.Where(p =>
+                p.Description.Contains(SearchBox.Text) ||
                 p.Title.Contains(SearchBox.Text)).ToList();
             }
-               
+
             SearchCount.Content = $"Toplam Post Sayısı: {((List<Post>)dg.ItemsSource).Count}";
         }
 
@@ -90,18 +90,19 @@ namespace FacebookPageSdk.WpfUi
                     var files = Directory.GetFiles(dir);
                     var postFiles = files.Where(f => f.Contains("Posts-") && f.Contains(".json"));
                     posts = new List<Post>();
-                    postFiles.OrderBy(p=>p.Replace("Posts-","").Replace(".json","")).ToList().ForEach((p) => {
+                    postFiles.OrderBy(p => p.Replace("Posts-", "").Replace(".json", "")).ToList().ForEach((p) =>
+                    {
                         var jsonPosts = File.ReadAllText(p);
                         var parsedPosts = JsonConvert.DeserializeObject<List<Post>>(jsonPosts);
                         posts.AddRange(parsedPosts);
                     });
                     dg.ItemsSource = posts;
-                    string json = JsonConvert.SerializeObject(posts,Formatting.Indented);
-                    File.WriteAllText(Path.Combine(dir, $"{PageName}-All.json"),json);
+                    string json = JsonConvert.SerializeObject(posts, Formatting.Indented);
+                    File.WriteAllText(Path.Combine(dir, $"{PageName}-All.json"), json);
                     SearchCount.Content = $"Toplam Post Sayısı: {posts.Count}";
                 }
             }
-           
+
         }
 
         private void Cb_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -136,19 +137,22 @@ namespace FacebookPageSdk.WpfUi
                     string source = Browser.GetSourceAsync().Result;
                     FacebookPageService pageService = new FacebookPageService(source);
                     var posts = pageService.GetPosts();
-                    string json = JsonConvert.SerializeObject(posts, Formatting.Indented);
-                    string FOLDER = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), $"{PageName}");
-                    Directory.CreateDirectory(FOLDER);
-                    File.WriteAllText(Path.Combine(FOLDER, $"Posts-{++fileCount}.json"), json);
-                    Browser.ExecuteScriptAsync(RemoveDivs);
-                    Browser.ExecuteScriptAsync(TimerJs);
-                    pageDownTimer.Start();
-                    Post post = posts.LastOrDefault();
-                    if (post.Date.Contains((DateTime.Now.Year - 8).ToString()))
+                    if (posts.Count() > 0)
                     {
-                        pageDownTimer.Stop();
-                        PageCount = 0;
-                        Browser.ExecuteScriptAsync(TimerClear);
+                        string json = JsonConvert.SerializeObject(posts, Formatting.Indented);
+                        string FOLDER = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), $"{PageName}");
+                        Directory.CreateDirectory(FOLDER);
+                        File.WriteAllText(Path.Combine(FOLDER, $"Posts-{++fileCount}.json"), json);
+                        Browser.ExecuteScriptAsync(RemoveDivs);
+                        Browser.ExecuteScriptAsync(TimerJs);
+                        pageDownTimer.Start();
+                        Post post = posts.LastOrDefault();
+                        if (post.Date.Contains((DateTime.Now.Year - 8).ToString()))
+                        {
+                            pageDownTimer.Stop();
+                            PageCount = 0;
+                            Browser.ExecuteScriptAsync(TimerClear);
+                        }
                     }
                 }));
             }
